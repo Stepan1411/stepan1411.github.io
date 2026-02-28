@@ -23,7 +23,7 @@ const langOptions = document.querySelectorAll('.lang-option');
 const languages = {
     'en': { flag: '🇬🇧', name: 'EN', fullName: 'English' },
     'ru': { flag: '🇷🇺', name: 'RU', fullName: 'Русский' },
-    'zh': { flag: '🇨🇳', name: 'ZH', fullName: '中文' },
+    'zh-CN': { flag: '🇨🇳', name: 'ZH', fullName: '中文' },
     'fr': { flag: '🇫🇷', name: 'FR', fullName: 'Français' },
     'es': { flag: '🇪🇸', name: 'ES', fullName: 'Español' },
     'de': { flag: '🇩🇪', name: 'DE', fullName: 'Deutsch' }
@@ -224,7 +224,7 @@ async function loadPage(pageId) {
     
     try {
         // Build URL based on language
-        let url = `https://stepan1411.github.io/pvp-bot-fabric/wiki/${currentLang}/${pageConfig.file}`;
+        let url = `https://stepan1411.github.io/pvp-bot-fabric/wiki/player/${currentLang}/${pageConfig.file}`;
         
         const response = await fetch(url);
         
