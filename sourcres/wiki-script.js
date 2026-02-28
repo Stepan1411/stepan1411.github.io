@@ -31,6 +31,28 @@ const languages = {
 
 let currentLang = localStorage.getItem('language') || 'en';
 
+function updateLanguageDisplay() {
+    const lang = languages[currentLang];
+    currentLangSpan.textContent = `${lang.flag} ${lang.name}`;
+    
+    // Update active state in dropdown
+    langOptions.forEach(option => {
+        if (option.getAttribute('data-lang') === currentLang) {
+            option.classList.add('active');
+        } else {
+            option.classList.remove('active');
+        }
+    });
+    
+    // Update sidebar text
+    document.querySelectorAll('[data-en]').forEach(element => {
+        const translation = element.getAttribute(`data-${currentLang}`);
+        if (translation) {
+            element.textContent = translation;
+        }
+    });
+}
+
 // Toggle dropdown
 langBtn.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -51,8 +73,12 @@ langOptions.forEach(option => {
             currentLang = lang;
             localStorage.setItem('language', currentLang);
             updateLanguageDisplay();
-            updateNavigationLanguage();
-            loadPage(currentPage);
+            if (typeof updateNavigationLanguage === 'function') {
+                updateNavigationLanguage();
+            }
+            if (typeof loadPage === 'function' && currentPage) {
+                loadPage(currentPage);
+            }
         }
         langToggle.classList.remove('open');
     });
@@ -66,12 +92,15 @@ const sidebarNav = document.querySelector('.sidebar-nav');
 
 // Load pages configuration
 async function loadPagesConfig() {
+    console.log('Loading pages config...');
     try {
         const response = await fetch('https://stepan1411.github.io/pvp-bot-fabric/wiki/pages.json');
+        console.log('Response status:', response.status);
         if (!response.ok) {
             throw new Error('Failed to load pages config');
         }
         pagesConfig = await response.json();
+        console.log('Pages config loaded:', pagesConfig);
         renderNavigation();
         loadPage('home');
     } catch (error) {
@@ -176,69 +205,6 @@ function moveTOCAfterActive() {
     const tocSection = document.getElementById('tocSection');
     
     if (activeItem && tocSection) {
-        activeItem.parentNode.insertBefore(tocSection, activeItem.nextSibling);
-    }
-}
-
-function updateLanguageDisplay() {
-    const lang = languages[currentLang];
-    currentLangSpan.textContent = `${lang.flag} ${lang.name}`;
-    
-    // Update active state in dropdown
-    langOptions.forEach(option => {
-        if (option.getAttribute('data-lang') === currentLang) {
-            option.classList.add('active');
-        } else {
-            option.classList.remove('active');
-        }
-    });
-    
-    // Update sidebar text
-    document.querySelectorAll('[data-en]').forEach(element => {
-        const translation = element.getAttribute(`data-${currentLang}`);
-        if (translation) {
-            element.textContent = translation;
-        }
-    });
-}
-
-// Navigation
-let currentPage = 'Home';
-const contentArea = document.getElementById('content-area');
-const navItems = document.querySelectorAll('.nav-item');
-
-// Page mapping
-const pageMapping = {
-    'home': 'Home',
-    'commands': 'Commands',
-    'combat': 'Combat',
-    'navigation': 'Navigation',
-    'paths': 'Paths',
-    'factions': 'Factions',
-    'kits': 'Kits',
-    'settings': 'Settings'
-};
-
-navItems.forEach(item => {
-    item.addEventListener('click', (e) => {
-        e.preventDefault();
-        const page = item.getAttribute('data-page');
-        loadPage(page);
-        
-        navItems.forEach(nav => nav.classList.remove('active'));
-        item.classList.add('active');
-        
-        // Move TOC section after active item
-        moveTOCAfterActive();
-    });
-});
-
-function moveTOCAfterActive() {
-    const activeItem = document.querySelector('.nav-item.active');
-    const tocSection = document.getElementById('tocSection');
-    
-    if (activeItem && tocSection) {
-        // Insert TOC after the active nav item
         activeItem.parentNode.insertBefore(tocSection, activeItem.nextSibling);
     }
 }
@@ -380,6 +346,7 @@ function updateActiveTOC() {
 }
 
 // Initialize
+console.log('Initializing wiki...');
 updateLanguageDisplay();
 loadPagesConfig();
 
