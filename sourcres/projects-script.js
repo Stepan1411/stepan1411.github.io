@@ -165,36 +165,6 @@ const projects = [
         wikiLink: "",
         sourceLink: "https://github.com/Stepan1411/sw4-chat-translator",
         tags: []
-    },
-    {
-        title: {
-            en: "",
-            ru: ""
-        },
-        description: {
-            en: "",
-            ru: ""
-        },
-        image: "sourcres/.webp",
-        link: "",
-        wikiLink: "",
-        sourceLink: "",
-        tags: []
-    },
-    {
-        title: {
-            en: "",
-            ru: ""
-        },
-        description: {
-            en: "",
-            ru: ""
-        },
-        image: "sourcres/.webp",
-        link: "",
-        wikiLink: "",
-        sourceLink: "",
-        tags: []
     }
 ];
 

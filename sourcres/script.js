@@ -55,7 +55,7 @@ const links = {
     telegram: 'https://t.me/stepanworld_ru',
     modrinth: 'https://modrinth.com/user/Stepan1411_Studio',
     discord: 'https://discord.com/invite/89dgfsCby3',
-    projects: '/projects.html'
+    projects: 'https://stepan1411.github.io/projects.html'
 };
 
 // Apply links
