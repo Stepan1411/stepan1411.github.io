@@ -55,7 +55,7 @@ const links = {
     telegram: 'https://t.me/stepanworld_ru',
     modrinth: 'https://modrinth.com/user/Stepan1411_Studio',
     discord: 'https://discord.com/invite/89dgfsCby3',
-    projects: '' // Add your Projects link
+    projects: 'projects.html'
 };
 
 // Apply links
@@ -63,4 +63,8 @@ document.querySelector('.youtube').href = links.youtube || '#';
 document.querySelector('.telegram').href = links.telegram || '#';
 document.querySelector('.modrinth').href = links.modrinth || '#';
 document.querySelector('.discord').href = links.discord || '#';
-document.querySelector('.projects').href = links.projects || '#';
+
+// Projects link opens in same tab
+const projectsLink = document.querySelector('.projects');
+projectsLink.href = links.projects || '#';
+projectsLink.removeAttribute('target');
