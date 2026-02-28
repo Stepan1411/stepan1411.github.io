@@ -51,11 +51,134 @@ langOptions.forEach(option => {
             currentLang = lang;
             localStorage.setItem('language', currentLang);
             updateLanguageDisplay();
+            updateNavigationLanguage();
             loadPage(currentPage);
         }
         langToggle.classList.remove('open');
     });
 });
+
+// Navigation
+let currentPage = 'home';
+let pagesConfig = { pages: [] };
+const contentArea = document.getElementById('content-area');
+const sidebarNav = document.querySelector('.sidebar-nav');
+
+// Load pages configuration
+async function loadPagesConfig() {
+    try {
+        const response = await fetch('https://stepan1411.github.io/pvp-bot-fabric/wiki/pages.json');
+        if (!response.ok) {
+            throw new Error('Failed to load pages config');
+        }
+        pagesConfig = await response.json();
+        renderNavigation();
+        loadPage('home');
+    } catch (error) {
+        console.error('Error loading pages config:', error);
+        showLoadError();
+    }
+}
+
+// Render navigation from config
+function renderNavigation() {
+    sidebarNav.innerHTML = '';
+    
+    pagesConfig.pages.forEach(page => {
+        const link = document.createElement('a');
+        link.href = `#${page.id}`;
+        link.className = 'nav-item';
+        link.setAttribute('data-page', page.id);
+        
+        const icon = document.createElement('span');
+        icon.className = 'nav-icon';
+        icon.textContent = page.icon;
+        
+        const text = document.createElement('span');
+        text.textContent = page.translations[currentLang] || page.translations.en;
+        text.setAttribute('data-page-id', page.id);
+        
+        link.appendChild(icon);
+        link.appendChild(text);
+        
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            loadPage(page.id);
+            
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            link.classList.add('active');
+            
+            moveTOCAfterActive();
+        });
+        
+        sidebarNav.appendChild(link);
+    });
+    
+    const firstItem = sidebarNav.querySelector('.nav-item');
+    if (firstItem) firstItem.classList.add('active');
+}
+
+// Update navigation text when language changes
+function updateNavigationLanguage() {
+    if (!pagesConfig.pages) return;
+    pagesConfig.pages.forEach(page => {
+        const navText = document.querySelector(`[data-page-id="${page.id}"]`);
+        if (navText) {
+            navText.textContent = page.translations[currentLang] || page.translations.en;
+        }
+    });
+}
+
+// Fallback pages
+function useFallbackPages() {
+    pagesConfig = {
+        pages: [
+            { id: 'home', icon: '🏠', file: 'Home.md', translations: { en: 'Home', ru: 'Главная' } },
+            { id: 'commands', icon: '🎮', file: 'Commands.md', translations: { en: 'Commands', ru: 'Команды' } },
+            { id: 'combat', icon: '⚔️', file: 'Combat.md', translations: { en: 'Combat', ru: 'Бой' } },
+            { id: 'navigation', icon: '🚶', file: 'Navigation.md', translations: { en: 'Navigation', ru: 'Навигация' } },
+            { id: 'paths', icon: '🛤️', file: 'Paths.md', translations: { en: 'Paths', ru: 'Пути' } },
+            { id: 'factions', icon: '👥', file: 'Factions.md', translations: { en: 'Factions', ru: 'Фракции' } },
+            { id: 'kits', icon: '🎒', file: 'Kits.md', translations: { en: 'Kits', ru: 'Наборы' } },
+            { id: 'settings', icon: '⚙️', file: 'Settings.md', translations: { en: 'Settings', ru: 'Настройки' } }
+        ]
+    };
+    renderNavigation();
+    loadPage('home');
+}
+
+// Show error when wiki fails to load
+function showLoadError() {
+    sidebarNav.innerHTML = '';
+    contentArea.innerHTML = `
+        <div class="alert alert-warning" style="margin: 40px;">
+            <h2>❌ ${currentLang === 'ru' ? 'Не удалось загрузить вики' : 'Failed to Load Wiki'}</h2>
+            <p>${currentLang === 'ru' 
+                ? 'Не удалось загрузить конфигурацию вики. Пожалуйста, проверьте подключение к интернету или попробуйте позже.' 
+                : 'Failed to load wiki configuration. Please check your internet connection or try again later.'}</p>
+            <button onclick="location.reload()" style="
+                margin-top: 16px;
+                padding: 10px 20px;
+                background: var(--accent);
+                color: #000;
+                border: none;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                font-size: 14px;
+            ">${currentLang === 'ru' ? '🔄 Перезагрузить' : '🔄 Reload'}</button>
+        </div>
+    `;
+}
+
+function moveTOCAfterActive() {
+    const activeItem = document.querySelector('.nav-item.active');
+    const tocSection = document.getElementById('tocSection');
+    
+    if (activeItem && tocSection) {
+        activeItem.parentNode.insertBefore(tocSection, activeItem.nextSibling);
+    }
+}
 
 function updateLanguageDisplay() {
     const lang = languages[currentLang];
@@ -120,16 +243,22 @@ function moveTOCAfterActive() {
     }
 }
 
-async function loadPage(page) {
-    currentPage = page;
-    const pageName = pageMapping[page];
+async function loadPage(pageId) {
+    currentPage = pageId;
+    
+    // Find page config
+    const pageConfig = pagesConfig.pages.find(p => p.id === pageId);
+    if (!pageConfig) {
+        contentArea.innerHTML = '<div class="alert alert-warning"><h2>Page not found</h2></div>';
+        return;
+    }
     
     // Show loading
     contentArea.innerHTML = '<div style="text-align: center; padding: 40px;"><p>Loading...</p></div>';
     
     try {
         // Build URL based on language
-        let url = `https://stepan1411.github.io/pvp-bot-fabric/wiki/${currentLang}/${pageName}.md`;
+        let url = `https://stepan1411.github.io/pvp-bot-fabric/wiki/${currentLang}/${pageConfig.file}`;
         
         const response = await fetch(url);
         
@@ -252,7 +381,7 @@ function updateActiveTOC() {
 
 // Initialize
 updateLanguageDisplay();
-loadPage('home');
+loadPagesConfig();
 
 // Initial TOC position
 setTimeout(() => {
