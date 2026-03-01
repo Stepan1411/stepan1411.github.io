@@ -30,8 +30,23 @@
     <div class="container">
         <h1 class="page-title" data-en="My Projects" data-ru="Мои Проекты">My Projects</h1>
         
+        <div class="tabs">
+            <button class="tab-btn active" data-category="mods" data-en="Mods" data-ru="Моды">Mods</button>
+            <button class="tab-btn" data-category="servers" data-en="Servers" data-ru="Серверы">Servers</button>
+            <button class="tab-btn" data-category="scripts" data-en="Scripts" data-ru="Скрипты">Scripts</button>
+        </div>
+        
         <div class="projects-grid">
             <!-- Projects will be loaded by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Modal for detailed description -->
+    <div id="descriptionModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h2 id="modalTitle" class="modal-title"></h2>
+            <div id="modalDescription" class="modal-description"></div>
         </div>
     </div>
 
