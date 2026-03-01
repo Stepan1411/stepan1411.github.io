@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PVP Bot - Developer Wiki</title>
+    <link rel="stylesheet" href="sourcres/wiki-style.css">
+</head>
+<body>
+    <div class="theme-toggle">
+        <button id="themeBtn" aria-label="Toggle theme">
+            <span class="sun-icon">☀️</span>
+            <span class="moon-icon">🌙</span>
+        </button>
+    </div>
+
+    <div class="lang-toggle">
+        <button id="langBtn" aria-label="Toggle language">
+            <span class="current-lang">🇬🇧 EN</span>
+            <span class="arrow">▼</span>
+        </button>
+        <div class="lang-dropdown" id="langDropdown">
+            <a href="#" class="lang-option" data-lang="en">🇬🇧 English</a>
+            <a href="#" class="lang-option" data-lang="ru">🇷🇺 Русский</a>
+            <a href="#" class="lang-option" data-lang="zh-CN">🇨🇳 中文</a>
+            <a href="#" class="lang-option" data-lang="fr">🇫🇷 Français</a>
+            <a href="#" class="lang-option" data-lang="es">🇪🇸 Español</a>
+            <a href="#" class="lang-option" data-lang="de">🇩🇪 Deutsch</a>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <a href="pvpbot-docs.html" class="back-link">← <span data-en="Back" data-ru="Назад">Back</span></a>
+            <h2 class="sidebar-title">👨‍💻 Developer Wiki</h2>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <!-- Navigation will be loaded dynamically from dev_pages.json -->
+        </nav>
+        
+        <div class="toc-section" id="tocSection">
+            <div class="toc-header-wrapper">
+                <div class="toc-header">ON THIS PAGE</div>
+                <button class="toc-toggle" id="tocToggle" aria-label="Toggle table of contents">
+                    <span class="toc-arrow">▼</span>
+                </button>
+            </div>
+            <nav id="tocNav"></nav>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div id="content-area"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="sourcres/dev-wiki-script.js"></script>
+</body>
+</html>

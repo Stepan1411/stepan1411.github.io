@@ -66,7 +66,7 @@ const projects = [
         },
         image: "sourcres/pvpbot.webp",
         link: "https://modrinth.com/mod/pvp-bot-fabric",
-        wikiLink: "https://github.com/Stepan1411/pvp-bot-fabric/wiki",
+        wikiLink: "https://stepan1411.github.io/pvpbot-docs.html",
         sourceLink: "https://github.com/Stepan1411/pvp-bot-fabric",
         tags: []
     },

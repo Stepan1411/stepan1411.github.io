@@ -29,7 +29,7 @@ const languages = {
     'de': { flag: '🇩🇪', name: 'DE', fullName: 'Deutsch' }
 };
 
-let currentLang = localStorage.getItem('language') || 'en';
+let currentLang = localStorage.getItem('dev-wiki-language') || 'en';
 
 function updateLanguageDisplay() {
     const lang = languages[currentLang];
@@ -71,7 +71,7 @@ langOptions.forEach(option => {
         const lang = option.getAttribute('data-lang');
         if (lang !== currentLang) {
             currentLang = lang;
-            localStorage.setItem('language', currentLang);
+            localStorage.setItem('dev-wiki-language', currentLang);
             updateLanguageDisplay();
             if (typeof updateNavigationLanguage === 'function') {
                 updateNavigationLanguage();
@@ -85,24 +85,24 @@ langOptions.forEach(option => {
 });
 
 // Navigation
-let currentPage = 'home';
+let currentPage = 'Home';
 let pagesConfig = { pages: [] };
 const contentArea = document.getElementById('content-area');
 const sidebarNav = document.querySelector('.sidebar-nav');
 
 // Load pages configuration
 async function loadPagesConfig() {
-    console.log('Loading pages config...');
+    console.log('Loading developer pages config...');
     try {
-        const response = await fetch('https://stepan1411.github.io/pvp-bot-fabric/wiki/pages.json');
+        const response = await fetch('https://stepan1411.github.io/pvp-bot-fabric/wiki/dev_pages.json');
         console.log('Response status:', response.status);
         if (!response.ok) {
             throw new Error('Failed to load pages config');
         }
         pagesConfig = await response.json();
-        console.log('Pages config loaded:', pagesConfig);
+        console.log('Developer pages config loaded:', pagesConfig);
         renderNavigation();
-        loadPage('home');
+        loadPage('Home');
     } catch (error) {
         console.error('Error loading pages config:', error);
         showLoadError();
@@ -158,24 +158,6 @@ function updateNavigationLanguage() {
     });
 }
 
-// Fallback pages
-function useFallbackPages() {
-    pagesConfig = {
-        pages: [
-            { id: 'home', icon: '🏠', file: 'Home.md', translations: { en: 'Home', ru: 'Главная' } },
-            { id: 'commands', icon: '🎮', file: 'Commands.md', translations: { en: 'Commands', ru: 'Команды' } },
-            { id: 'combat', icon: '⚔️', file: 'Combat.md', translations: { en: 'Combat', ru: 'Бой' } },
-            { id: 'navigation', icon: '🚶', file: 'Navigation.md', translations: { en: 'Navigation', ru: 'Навигация' } },
-            { id: 'paths', icon: '🛤️', file: 'Paths.md', translations: { en: 'Paths', ru: 'Пути' } },
-            { id: 'factions', icon: '👥', file: 'Factions.md', translations: { en: 'Factions', ru: 'Фракции' } },
-            { id: 'kits', icon: '🎒', file: 'Kits.md', translations: { en: 'Kits', ru: 'Наборы' } },
-            { id: 'settings', icon: '⚙️', file: 'Settings.md', translations: { en: 'Settings', ru: 'Настройки' } }
-        ]
-    };
-    renderNavigation();
-    loadPage('home');
-}
-
 // Show error when wiki fails to load
 function showLoadError() {
     sidebarNav.innerHTML = '';
@@ -183,8 +165,8 @@ function showLoadError() {
         <div class="alert alert-warning" style="margin: 40px;">
             <h2>❌ ${currentLang === 'ru' ? 'Не удалось загрузить вики' : 'Failed to Load Wiki'}</h2>
             <p>${currentLang === 'ru' 
-                ? 'Не удалось загрузить конфигурацию вики. Пожалуйста, проверьте подключение к интернету или попробуйте позже.' 
-                : 'Failed to load wiki configuration. Please check your internet connection or try again later.'}</p>
+                ? 'Не удалось загрузить конфигурацию вики для разработчиков. Пожалуйста, проверьте подключение к интернету или попробуйте позже.' 
+                : 'Failed to load developer wiki configuration. Please check your internet connection or try again later.'}</p>
             <button onclick="location.reload()" style="
                 margin-top: 16px;
                 padding: 10px 20px;
@@ -223,8 +205,8 @@ async function loadPage(pageId) {
     contentArea.innerHTML = '<div style="text-align: center; padding: 40px;"><p>Loading...</p></div>';
     
     try {
-        // Build URL based on language
-        let url = `https://stepan1411.github.io/pvp-bot-fabric/wiki/player/${currentLang}/${pageConfig.file}`;
+        // Build URL based on language - developer wiki path
+        let url = `https://stepan1411.github.io/pvp-bot-fabric/wiki/developer/${currentLang}/${pageConfig.file}`;
         
         const response = await fetch(url);
         
@@ -349,7 +331,7 @@ function updateActiveTOC() {
 }
 
 // Initialize
-console.log('Initializing wiki...');
+console.log('Initializing developer wiki...');
 updateLanguageDisplay();
 loadPagesConfig();
 

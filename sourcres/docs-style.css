@@ -185,7 +185,6 @@ body {
 
 .doc-card.developer {
     border-color: var(--dev-color);
-    opacity: 0.7;
 }
 
 .doc-card.developer:hover {
