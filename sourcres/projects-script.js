@@ -205,6 +205,54 @@ const projects = [
     },
     {
         title: {
+            en: "Dialog auth",
+            ru: "Dialog auth"
+        },
+        description: {
+            en: "The mod adds authorization using the dialog system added in 1.21.6!",
+            ru: "Мод добавляет возможность авторизации с помощью диалоговой системы, добавленной в версии 1.21.6!"
+        },
+        image: "sourcres/da.webp",
+        link: "https://modrinth.com/mod/dialog-auth",
+        wikiLink: "",
+        sourceLink: "https://github.com/Stepan1411/Dialog-auth",
+        tags: [],
+        category: "mods"
+    },
+    {
+        title: {
+            en: "Event Horizon",
+            ru: "Event Horizon"
+        },
+        description: {
+            en: "Event Horizon is a cinematic shader for Minecraft that brings a black hole to the End dimension.",
+            ru: "Event Horizon — это кинематографический шейдер для Minecraft, который переносит черную дыру в измерение Края."
+        },
+        image: "sourcres/eh.webp",
+        link: "https://modrinth.com/shader/event-horizon-shader",
+        wikiLink: "",
+        sourceLink: "",
+        tags: [],
+        category: "mods"
+    },
+    {
+        title: {
+            en: "Falling tree",
+            ru: "Falling tree"
+        },
+        description: {
+            en: "A realistic tree-cutting datapack with physics-based falling animations for Minecraft!",
+            ru: "Реалистичный датапак для Minecraft, демонстрирующий вырубку деревьев и анимацию падения, основанную на физике!"
+        },
+        image: "sourcres/ft.webp",
+        link: "https://modrinth.com/datapack/falling-tree-datapack",
+        wikiLink: "",
+        sourceLink: "github.com/Stepan1411/Falling-tree-datapack",
+        tags: [],
+        category: "mods"
+    },
+    {
+        title: {
             en: "SurvivalWorld season 4",
             ru: "SurvivalWorld сезон 4"
         },
